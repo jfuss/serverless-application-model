@@ -11,14 +11,14 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             if (['jfuss'].includes(context.payload.sender.login)) {
-              github.issues.addLabels({
+              github.rest.issues.addLabels({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 labels: ['pr/internal']
               })
             } else {
-              github.issues.addLabels({
+              github.rest.issues.addLabels({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,

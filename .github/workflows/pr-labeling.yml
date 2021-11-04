@@ -1,0 +1,28 @@
+name: Add labels to PRs
+
+on: pull_request
+
+jobs:
+  apply-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v3
+        # the login of our bot called 'sam-cli-bot'
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            if (['jfuss'].includes(github.event.sender.login)) {
+              github.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['pr/internal']
+              })
+            } else {
+              github.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['pr/external']
+              })
+            }
